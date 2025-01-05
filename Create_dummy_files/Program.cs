@@ -33,8 +33,11 @@ using System.Threading.Tasks;
 
 internal class Program
 {
+    //static void Main(string[] args)
     static async Task Main(string[] args) // Main is now async
     {
+        // Explicitly block on the asynchronous method
+        //Task.Run(async () => await ChangeRandomWordsToAnArray()).GetAwaiter().GetResult();
         await ChangeRandomWordsToAnArray(); // Await the asynchronous method
     }
 

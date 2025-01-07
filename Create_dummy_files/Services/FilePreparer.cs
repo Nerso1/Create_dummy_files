@@ -12,7 +12,11 @@
     public static async Task<List<string>> GenerateFileNames(List<FileCreationRules> files, bool genericOrRandom)
     {
         int totalFiles = FileCreationRules.HowManyFilesToCreate(files);
-        return await FileNameGenerator.GetNames(totalFiles, genericOrRandom);
+
+        IWordApiClient wordApiClient = new WordApiClient();
+        FileNameGenerator fileNameGenerator = new FileNameGenerator(wordApiClient);
+
+        return await fileNameGenerator.GetNamesAsync(totalFiles, genericOrRandom);
     }
 
     public static List<FileToCreate> CombineWithMetadata(List<FileCreationRules> files, List<string> fileNames)

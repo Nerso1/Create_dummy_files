@@ -1,26 +1,29 @@
-﻿public class FileNameGenerator
+﻿namespace MyProject.Utilities
 {
-    private readonly IWordApiClient _wordApiClient;
-
-    public FileNameGenerator(IWordApiClient wordApiClient)
+    public class FileNameGenerator
     {
-        _wordApiClient = wordApiClient;
-    }
+        private readonly IWordApiClient _wordApiClient;
 
-    public async Task<List<string>> GetNamesAsync(int amount, bool genericOrRandom)
-    {
-        if (genericOrRandom)
+        public FileNameGenerator(IWordApiClient wordApiClient)
         {
-            var names = new List<string>();
-            for (int i = 1; i <= amount; i++)
-            {
-                names.Add($"file{i}");
-            }
-            return names;
+            _wordApiClient = wordApiClient;
         }
-        else
+
+        public async Task<List<string>> GetNamesAsync(int amount, bool genericOrRandom)
         {
-            return await _wordApiClient.GetRandomWordsAsync(amount);
+            if (genericOrRandom)
+            {
+                var names = new List<string>();
+                for (int i = 1; i <= amount; i++)
+                {
+                    names.Add($"file{i}");
+                }
+                return names;
+            }
+            else
+            {
+                return await _wordApiClient.GetRandomWordsAsync(amount);
+            }
         }
     }
 }

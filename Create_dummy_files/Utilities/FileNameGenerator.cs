@@ -1,4 +1,6 @@
-﻿namespace MyProject.Utilities
+﻿using MyProject.Services.Interfaces;
+
+namespace MyProject.Utilities
 {
     public class FileNameGenerator
     {

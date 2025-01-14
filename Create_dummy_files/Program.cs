@@ -10,20 +10,8 @@ namespace CreateDummyFiles
         {
             string directoryPath = @"C:\Users\domin\Downloads\Folder";
             string filePath = "files.json";
+            var files = await LoadOrCreateFileRules(filePath);
             bool genericOrRandom = false;
-            var files = await JsonFileHandler.DeserializeFromJsonFileAsync<FileCreationRules>(filePath);
-            foreach (var file in files)
-            {
-                Console.WriteLine($"Amount: {file.Amount}, SizeMB: {file.SizeMB}, Extension: {file.Extension}, CreationDate: {file.CreationDate}");
-            }
-
-            //var files = new List<FileCreationRules>
-            //{
-            //    new FileCreationRules(10, 1.234, ".rtc", DateTime.Now),
-            //    new FileCreationRules(5, 0.987, ".log", DateTime.Now.AddDays(-1)),
-            //    new FileCreationRules(20, 0.123, ".txt", DateTime.Now.AddDays(-2))
-            //};
-            //await JsonFileHandler.SerializeToJsonFileAsync(filePath, files);
 
             FileCreationRules.PrintAll(files);
 
@@ -47,6 +35,31 @@ namespace CreateDummyFiles
                 Console.WriteLine();
 
                 FileCreator.CreateFiles(filesWithNames, directoryPath);
+            }
+        }
+
+        private static async Task<List<FileCreationRules>> LoadOrCreateFileRules(string filePath)
+        {
+            List<FileCreationRules> files;
+            if (File.Exists(filePath))
+            {
+                files = await JsonFileHandler.DeserializeFromJsonFileAsync<FileCreationRules>(filePath);
+                foreach (var file in files)
+                {
+                    Console.WriteLine($"Amount: {file.Amount}, SizeMB: {file.SizeMB}, Extension: {file.Extension}, CreationDate: {file.CreationDate}");
+                }
+                return files;
+            }
+            else
+            {
+                files = new List<FileCreationRules>
+                {
+                    new FileCreationRules(10, 1.234, ".rtc", DateTime.Now),
+                    new FileCreationRules(5, 0.987, ".log", DateTime.Now.AddDays(-1)),
+                    new FileCreationRules(20, 0.123, ".txt", DateTime.Now.AddDays(-2))
+                };
+                await JsonFileHandler.SerializeToJsonFileAsync(filePath, files);
+                return files;
             }
         }
 

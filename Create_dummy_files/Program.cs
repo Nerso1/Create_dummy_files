@@ -8,10 +8,14 @@ namespace CreateDummyFiles
     {
         public static async Task Main(string[] args)
         {
-            string directoryPath = @"C:\Users\domin\Downloads\Folder";
-            string filePath = "files.json";
+            string filePath = "files.json"; //C:\Users\domin\Downloads\Folder
+
+            string directoryPath = GetDirectoryPath(args);
+            bool genericOrRandom = !YesOrNoQuestion("Do you want your files to have random names? (y/N) ");
+           
+            Console.Clear();
+
             var files = await LoadOrCreateFileRules(filePath);
-            bool genericOrRandom = false;
 
             FileCreationRules.PrintAll(files);
 
@@ -38,16 +42,36 @@ namespace CreateDummyFiles
             }
         }
 
+        private static string GetDirectoryPath (string[] args)
+        {
+            string? directoryPath;
+            if (args.Length > 0)
+            {
+                directoryPath = args[0];
+                Console.WriteLine($"Using provided directory path: {directoryPath}");
+            }
+            else
+            {
+                Console.WriteLine("Provide path to folder that you want to create dummy files in: ");
+                directoryPath = Console.ReadLine();
+                if (directoryPath == null)
+                {
+                    throw new Exception("Path cannot be null");
+                } 
+            }
+            return directoryPath;
+        }
+
         private static async Task<List<FileCreationRules>> LoadOrCreateFileRules(string filePath)
         {
             List<FileCreationRules> files;
             if (File.Exists(filePath))
             {
                 files = await JsonFileHandler.DeserializeFromJsonFileAsync<FileCreationRules>(filePath);
-                foreach (var file in files)
-                {
-                    Console.WriteLine($"Amount: {file.Amount}, SizeMB: {file.SizeMB}, Extension: {file.Extension}, CreationDate: {file.CreationDate}");
-                }
+                //foreach (var file in files)
+                //{
+                //    Console.WriteLine($"Amount: {file.Amount}, SizeMB: {file.SizeMB}, Extension: {file.Extension}, CreationDate: {file.CreationDate}");
+                //}
                 return files;
             }
             else

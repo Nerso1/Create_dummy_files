@@ -78,7 +78,7 @@
         {
             foreach (var file in files)
             {
-                Console.WriteLine("---------- File ----------");
+                Console.WriteLine("-------- Group of files --------");
                 file.PrintValues();
             }
         }

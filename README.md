@@ -1,4 +1,4 @@
-[![Watch the video](https://i.sstatic.net/Vp2cE.png)](https://youtu.be/vt5fpE0bzSY)https://youtu.be/gnVHOyktr-4)
+https://www.youtube.com/watch?v=gnVHOyktr-4&ab
 Create_dummy_files generates groups of dummy files with specific:
 - amount,
 - size,
